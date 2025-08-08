@@ -1,0 +1,14 @@
+name: tests
+on: [push, pull_request]
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    env:
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: pip install pytest pytest-cov mypy
+      - run: pytest --cov=. --cov-report=term-missing -q
+      - run: mypy .
