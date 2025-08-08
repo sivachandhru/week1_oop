@@ -26,3 +26,26 @@ def test_transfer_invalid_amounts(amt):
     a = BankAccount("A", 100.0); b = BankAccount("B", 0.0)
     with pytest.raises(ValueError):
         a.transfer(b, amt)
+def test_deposit_invalid():
+    from bank import BankAccount
+    a = BankAccount("A")
+    import pytest
+    with pytest.raises(ValueError):
+        a.deposit(0.0)
+    with pytest.raises(ValueError):
+        a.deposit(-5.0)
+
+def test_withdraw_invalid_amounts():
+    from bank import BankAccount
+    a = BankAccount("A", 50.0)
+    import pytest
+    for amt in (0.0, -3.0):
+        with pytest.raises(ValueError):
+            a.withdraw(amt)
+
+def test_transfer_insufficient_funds():
+    from bank import BankAccount
+    a = BankAccount("A", 10.0); b = BankAccount("B", 0.0)
+    import pytest
+    with pytest.raises(ValueError):
+        a.transfer(b, 20.0)
